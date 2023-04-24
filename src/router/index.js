@@ -3,14 +3,18 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Home, Categories} from '../screens';
+import {Home, Categories, Login} from '../screens';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 const MainApp = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      // initialRouteName="Home"
+      activeColor="white"
+      barStyle={{backgroundColor: '#5d8aa8'}}>
+
       <Tab.Screen
         name="Home"
         component={Home}
@@ -22,6 +26,7 @@ const MainApp = () => {
           ),
         }}
       />
+      
       <Tab.Screen
         name="Categories"
         component={Categories}
@@ -29,7 +34,11 @@ const MainApp = () => {
           headerShown: false,
           tabBarLabel: 'Categories',
           tabBarIcon: () => (
-            <MaterialCommunityIcons name="format-list-bulleted" color="black" size={24} />
+            <MaterialCommunityIcons
+              name="format-list-bulleted"
+              color="black"
+              size={24}
+            />
           ),
         }}
       />
@@ -39,12 +48,13 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
         name="MainApp"
         component={MainApp}
         options={{headerShown: false}}
       />
+      {/* <Stack.Screen name='Login' component={Login} /> */}
     </Stack.Navigator>
   );
 };
