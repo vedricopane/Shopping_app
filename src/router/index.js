@@ -20,7 +20,7 @@ const MainApp = () => {
         component={Home}
         options={{
           headerShown: false,
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Products',
           tabBarIcon: () => (
             <MaterialCommunityIcons name="home" color="black" size={24} />
           ),
