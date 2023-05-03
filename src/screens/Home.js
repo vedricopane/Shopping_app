@@ -5,16 +5,21 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+
+import { useFavoritesContext } from '../context/favoritesContext';
 
 const Home = () => {
   const [product, setProduct] = useState([]);
 
   // useState untuk display activity indicator when fetching the data
   const [loading, setLoading] = useState(false);
+
+  const {addToFavoritesHandler} = useFavoritesContext()
 
   useEffect(() => {
     setLoading(true);
@@ -52,13 +57,22 @@ const Home = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <View style={styles.wrapperProduct}>
-            <View style={styles.wrapperImage}>
-              <Image
-                source={{uri: item.image}}
-                style={styles.imageProduct}
-                resizeMode="contain"
-              />
+            <View style={styles.wrapperImageAndButton}>
+              <View>
+                <Image
+                  source={{uri: item.image}}
+                  style={styles.imageProduct}
+                  resizeMode="contain"
+                />
+              </View>
+
+              <View>
+                <TouchableOpacity style={styles.addButtonFav} onPress={() => addToFavoritesHandler(item)}>
+                  <Text style={styles.addButtonFavText}>Add to Favorites</Text>
+                </TouchableOpacity>
+              </View>
             </View>
+
             <View style={styles.wrapperText}>
               <Text style={{color: 'black', fontWeight: 'bold', margin: 5}}>
                 {item.title}
@@ -71,7 +85,6 @@ const Home = () => {
           </View>
         )}
       />
-
     </SafeAreaView>
   );
 };
@@ -82,7 +95,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: 'white',
-    // padding: 10
   },
   loading: {
     flex: 1,
@@ -90,21 +102,30 @@ const styles = StyleSheet.create({
   },
   wrapperProduct: {
     flexDirection: 'row',
-    // justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
     paddingHorizontal: 5,
     paddingBottom: 20,
-    // padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#dedede',
+  },
+  wrapperImageAndButton: {
+    alignItems: 'center',
   },
   imageProduct: {
     width: 150,
     height: 150,
   },
-  wrapperImage: {
-    flex: 1,
+  addButtonFav: {
+    marginVertical: 30,
+    backgroundColor: '#5d8aa8',
+    padding: 10,
+    borderRadius: 10
+  },
+  addButtonFavText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: '500'
   },
   wrapperText: {
     flex: 1,

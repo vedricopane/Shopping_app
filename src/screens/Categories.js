@@ -56,30 +56,8 @@ const Categories = () => {
               <Text style={styles.textCategory}>{item}</Text>
             </View>
           </View>
-
-          // <View style={styles.wrapperProduct}>
-          //   <View style={styles.wrapperImage}>
-          //     <Image source={{uri: item.image}} style={styles.imageProduct} resizeMode='contain' />
-          //   </View>
-          //   <View style={styles.wrapperText}>
-          //     <Text style={{color: 'black', fontWeight: 'bold', margin: 5}}>
-          //       {item.title}
-          //     </Text>
-          //     <Text style={{color: 'black', margin: 5}}>{item.description}</Text>
-          //     <Text style={{color: 'black', margin: 5}}>{item.price}</Text>
-          //   </View>
-          // </View>
         )}
       />
-
-      {/* 
-      {loading === true ? (
-        <View>
-          <ActivityIndicator size="large" color="black" />
-        </View>
-      ) : null}
-
-      <FlatList data={} /> */}
     </SafeAreaView>
   );
 };
