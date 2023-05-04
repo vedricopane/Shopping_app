@@ -4,14 +4,15 @@ import {
   Text,
   View,
   FlatList,
-  Image,TouchableOpacity
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {useFavoritesContext} from '../context/favoritesContext';
 import {Item} from 'react-native-paper/lib/typescript/src/components/Drawer/Drawer';
 
 const Favorites = () => {
-  const {favorites} = useFavoritesContext();
+  const {favorites, removeFromFavoritesHandler} = useFavoritesContext();
   console.warn(favorites.length);
 
   return (
@@ -32,10 +33,26 @@ const Favorites = () => {
                 </View>
 
                 <View>
-                  <TouchableOpacity>
-                    <Text>Order Now</Text>
+                  <TouchableOpacity
+                    style={styles.addButtonFav}
+                    onPress={() => removeFromFavoritesHandler(item)}>
+                    <Text style={styles.addButtonFavText}>Remove Item</Text>
                   </TouchableOpacity>
                 </View>
+              </View>
+
+              <View style={styles.wrapperText}>
+                <Text style={{color: 'black', fontWeight: 'bold', margin: 5}}>
+                  {item.title}
+                </Text>
+                <Text style={{color: 'black', margin: 5}}>
+                  {item.description}
+                </Text>
+                <Text
+                  style={{
+                    color: 'black',
+                    margin: 5,
+                  }}>{`Price : ${item.price}$`}</Text>
               </View>
             </View>
           )}

@@ -11,7 +11,7 @@ import {
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
-import { useFavoritesContext } from '../context/favoritesContext';
+import {useFavoritesContext} from '../context/favoritesContext';
 
 const Home = () => {
   const [product, setProduct] = useState([]);
@@ -19,7 +19,15 @@ const Home = () => {
   // useState untuk display activity indicator when fetching the data
   const [loading, setLoading] = useState(false);
 
-  const {addToFavoritesHandler} = useFavoritesContext()
+  const {favorites, addToFavoritesHandler, removeFromFavoritesHandler} =
+    useFavoritesContext();
+
+  // function untuk menge-cek apakah item yg ditambahkan ke favorites sudah ada atau belum.
+  const checker = item => {
+    const boolean = favorites.some(element => element.id === item.id);
+
+    return boolean;
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -67,8 +75,18 @@ const Home = () => {
               </View>
 
               <View>
-                <TouchableOpacity style={styles.addButtonFav} onPress={() => addToFavoritesHandler(item)}>
-                  <Text style={styles.addButtonFavText}>Add to Favorites</Text>
+                <TouchableOpacity
+                  style={styles.addButtonFav}
+                  onPress={() =>
+                    checker(item)
+                      ? removeFromFavoritesHandler(item)
+                      : addToFavoritesHandler(item)
+                  }>
+                  <Text style={styles.addButtonFavText}>
+                    {checker(item)
+                      ? 'Remove from Favorites'
+                      : 'Add to Favorites'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -80,7 +98,12 @@ const Home = () => {
               <Text style={{color: 'black', margin: 5}}>
                 {item.description}
               </Text>
-              <Text style={{color: 'black', margin: 5}}>{item.price}</Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: 'bold',
+                  margin: 5,
+                }}>{`Price : ${item.price}$`}</Text>
             </View>
           </View>
         )}
@@ -120,12 +143,12 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     backgroundColor: '#5d8aa8',
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   addButtonFavText: {
     color: 'white',
     fontSize: 12,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   wrapperText: {
     flex: 1,

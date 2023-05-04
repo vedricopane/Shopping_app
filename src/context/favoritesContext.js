@@ -1,4 +1,10 @@
-import React, {createContext, useCallback, useContext, useMemo, useState} from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
 const favoritesContext = createContext(null);
 
@@ -17,18 +23,40 @@ export const useFavoritesContext = () => {
 const FavoritesContextProvider = ({children}) => {
   const [favorites, setFavorites] = useState([]);
 
-  // fungsi menangani button add to favorites untuk menambahkannya ke array favorites.
-  const addToFavoritesHandler = useCallback((item) => {
-    const oldFavorites = [...favorites]
+  // fungsi untuk menangani button 'add to favorites' untuk menambahkannya ke array favorites.
+  const addToFavoritesHandler = useCallback(
+    item => {
+      const oldFavorites = [...favorites];
 
-    const newFavorites = oldFavorites.concat(item)
+      const newFavorites = oldFavorites.concat(item);
 
-    setFavorites(newFavorites)
-  }, [favorites])
+      setFavorites(newFavorites);
+    },
+    [favorites],
+  );
 
-  const value = useMemo(() => ({
-    favorites, addToFavoritesHandler
-  }), [favorites])
+  // fungsi untuk menangani button 'remove button' untuk menghapus item yg ada pada array favorites.
+  const removeFromFavoritesHandler = useCallback(
+    item => {
+      const oldFavorites = [...favorites];
+
+      // loopItem adalah variable item yg ada di array favorites.
+      const newFavorites = oldFavorites.filter(
+        loopItem => item.id !== loopItem.id,
+      );
+      setFavorites(newFavorites)
+    },
+    [favorites],
+  );
+
+  const value = useMemo(
+    () => ({
+      favorites,
+      addToFavoritesHandler,
+      removeFromFavoritesHandler,
+    }),
+    [favorites, addToFavoritesHandler, removeFromFavoritesHandler],
+  );
 
   return (
     <favoritesContext.Provider value={value}>
